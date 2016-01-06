@@ -1,0 +1,63 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+*.so
+build/
+lib/
+**/obj/local/**
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must ends with two \r.
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Gradle
+build
+.gradle
+.gradletasknamecache
+
+
+#Eclipse
+.classpath
+.project
+.settings/
+
+#Android studio
+.idea
+*.iml
+local.properties
+
+
+#Project specific
+android/routerKeygen/src/main/libs
+android/routerKeygen/src/main/obj
+android/routerKeygen/RouterKeygen_v3.dic

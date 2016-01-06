@@ -1,0 +1,3 @@
+<resources>
+    <item name="activity_networks_list" type="layout">@layout/activity_twopane</item>
+</resources>
