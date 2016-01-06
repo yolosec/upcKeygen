@@ -7,7 +7,7 @@ Application will be soon available on GooglePlay:
 https://play.google.com/store/apps/details?id=net.yolosec.upckeygen
 
 # Disclaimer
-Please use the application at your own risk and repsonsibility. It is only for educational and research purposes and to assess
+Please use the application at your own risk and responsibility. It is only for educational and research purposes and to assess
 your home router security. Do not use the application to connect to networks you are not authorized to. Application is not intended as a tool for attackers.
 
 # Source
