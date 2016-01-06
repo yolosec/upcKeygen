@@ -173,6 +173,8 @@
          Use string with quotes if you want a space
     -->
     <string name="changelog_header_version">"Versão "</string>
+    <string name="bt_save_sd">Copy to clipboard</string>
+    <string name="app_name">UPC Keygen</string>
     <!-- UNTRANSLATED -->
 
 </resources>
