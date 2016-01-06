@@ -13,7 +13,7 @@ public class WirelessMatcher {
     public synchronized static ArrayList<Keygen> getKeygen(String ssid,
                                                            String mac, ZipInputStream magicInfo) {
         final ArrayList<Keygen> keygens = new ArrayList<>();
-        if (ssid.matches("UPC[0-9]{5,7}")) {
+        if (ssid.matches("UPC[0-9]{5,8}")) {
             keygens.add(new UpcKeygen(ssid, mac));
         }
 
