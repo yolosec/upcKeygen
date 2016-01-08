@@ -61,6 +61,7 @@
             android:layout_alignParentRight="true"
             android:imeOptions="actionDone"
             android:maxLines="1"
+            android:maxLength="9"
             android:nextFocusDown="@+id/input_mac_pair1"
             android:singleLine="true"
             android:hint="@string/label_upc_placeholder"
