@@ -159,14 +159,7 @@ public class NetworkFragment extends Fragment {
 		}
 		if (foundMissingKeygen) {
 			//If any is missing, simply replace them all.
-			ZipInputStream zipInputStream = new ZipInputStream(
-					getActivity().getResources().openRawResource(R.raw.magic_info));
-			wifiNetwork.setKeygens(zipInputStream);
-			try {
-				zipInputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			wifiNetwork.setKeygens(null);
 		}
 	}
 
