@@ -91,7 +91,9 @@ public class ManualInputFragment extends Fragment {
                 return null;
             }
         };
-        edit.setFilters(new InputFilter[]{filterSSID});
+        final InputFilter lengthFilter = new InputFilter.LengthFilter(9); //Filter to 10 characters
+
+        edit.setFilters(new InputFilter[]{filterSSID, lengthFilter});
         final EditText macs[] = new EditText[6];
         root.findViewById(R.id.manual_mac_root).setVisibility(View.GONE);
         edit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
