@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "net.yolosec.upckeygen"
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 23
 
     }
