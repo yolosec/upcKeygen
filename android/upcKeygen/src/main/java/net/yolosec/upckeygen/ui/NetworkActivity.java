@@ -20,7 +20,9 @@
 package net.yolosec.upckeygen.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -53,10 +55,10 @@ public class NetworkActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-//                NavUtils.navigateUpTo(
-//                        this, new Intent(this, NetworksListActivity.class)
-//                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                );
+                NavUtils.navigateUpTo(
+                        this, new Intent(this, ManualInputActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                );
                 return true;
             case R.id.pref:
 //                startActivity(new Intent(this, Preferences.class));
@@ -66,7 +68,7 @@ public class NetworkActivity extends Activity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.preferences, menu);
+//        getMenuInflater().inflate(R.menu.preferences, menu);
         return true;
     }
 }

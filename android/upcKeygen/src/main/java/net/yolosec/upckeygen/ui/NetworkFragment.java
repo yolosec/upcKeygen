@@ -44,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -51,6 +52,7 @@ import android.widget.ViewSwitcher;
 import net.yolosec.upckeygen.BuildConfig;
 import net.yolosec.upckeygen.R;
 import net.yolosec.upckeygen.algorithms.Keygen;
+import net.yolosec.upckeygen.algorithms.KeygenMonitor;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
 import java.io.IOException;
@@ -259,11 +261,16 @@ public class NetworkFragment extends Fragment {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	}
 
-	private class KeygenThread extends AsyncTask<Void, Integer, List<String>> {
+	private class KeygenThread extends AsyncTask<Void, Integer, List<String>> implements KeygenMonitor {
 		private final static int SHOW_TOAST = 0;
 		private final static int SHOW_MESSAGE_WITH_SPINNER = 1;
 		private final static int SHOW_MESSAGE_NO_SPINNER = 2;
+		private final static int CHANGE_DETERMINATE = 3;
+		private final static int KEYGEN_PROGRESSED = 4;
+		private final static int KEY_COMPUTED = 5;
 		private final WiFiNetwork wifiNetwork;
+		private volatile int numKeys = 0;
+		private boolean spinnerDeterminate = false;
 
 		private KeygenThread(WiFiNetwork wifiNetwork) {
 			this.wifiNetwork = wifiNetwork;
@@ -312,6 +319,33 @@ public class NetworkFragment extends Fragment {
 								View.VISIBLE);
 						break;
 
+					case CHANGE_DETERMINATE: {
+						spinnerDeterminate = values[i + 1] > 0;
+						final ProgressBar spinner = (ProgressBar)root.findViewById(R.id.loading_spinner);
+						final ProgressBar progressBar = (ProgressBar)root.findViewById(R.id.loading_progress);
+						spinner.setVisibility(spinnerDeterminate ? View.GONE : View.VISIBLE);
+						progressBar.setVisibility(spinnerDeterminate ? View.VISIBLE : View.GONE);
+						if (spinnerDeterminate) {
+							progressBar.setMax(1000);
+							progressBar.setProgress(0);
+						}
+					}
+					break;
+
+					case KEY_COMPUTED:
+						messages.setText(
+								NetworkFragment.this.getString(R.string.dialog_nativecalc_msg) + " " +
+										NetworkFragment.this.getString(R.string.key_computed, values[i + 1])
+						);
+						break;
+
+					case KEYGEN_PROGRESSED:{
+						if (spinnerDeterminate){
+							final ProgressBar spinner = (ProgressBar)root.findViewById(R.id.loading_progress);
+							spinner.setProgress(values[i+1]);
+						}
+					}
+					break;
 				}
 			}
 		}
@@ -338,6 +372,13 @@ public class NetworkFragment extends Fragment {
 		}
 
 		private List<String> calcKeys(Keygen keygen) {
+			if (keygen.keygenSupportsProgress()){
+				keygen.setMonitor(this);
+				publishProgress(CHANGE_DETERMINATE, 1);
+			} else {
+				publishProgress(CHANGE_DETERMINATE, 0);
+			}
+
 			long begin = System.currentTimeMillis();
 			final List<String> result = keygen.getKeys();
 			long end = System.currentTimeMillis() - begin;
@@ -354,6 +395,15 @@ public class NetworkFragment extends Fragment {
 			return result;
 		}
 
-	}
+		@Override
+		public void onKeyComputed() {
+			numKeys += 1;
+			publishProgress(KEY_COMPUTED, numKeys);
+		}
 
+		@Override
+		public void onKeygenProgressed(double progress) {
+			publishProgress(KEYGEN_PROGRESSED, (int)(progress*1000));
+		}
+	}
 }

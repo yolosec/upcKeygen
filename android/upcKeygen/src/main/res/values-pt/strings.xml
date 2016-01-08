@@ -176,6 +176,10 @@
     <string name="bt_save_sd">Copy to clipboard</string>
     <string name="app_name">UPC Keygen</string>
     <string name="msg_welcome_title">UPC Keygen</string>
+    <string name="label_upc">UPC</string>
+    <string name="label_upc_enter">Enter integral part of the UPC WiFi name</string>
+    <string name="label_upc_placeholder">1234567</string>
+    <string name="key_computed">Keys found: %d</string>
     <!-- UNTRANSLATED -->
 
 </resources>

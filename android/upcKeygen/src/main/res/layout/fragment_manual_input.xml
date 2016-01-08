@@ -32,21 +32,39 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:clickable="false"
-            android:text="@string/lb_manual" />
+            android:text="@string/label_upc_enter"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/label_upc"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/label_ssid"
+            android:clickable="false"
+            android:text="@string/label_upc"
+            android:layout_alignBottom="@+id/manual_autotext"
+            android:gravity="center_vertical" />
 
         <AutoCompleteTextView
             android:id="@+id/manual_autotext"
-            android:layout_width="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_ssid"
+            android:layout_toRightOf="@+id/label_upc"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
             android:imeOptions="actionDone"
-            android:inputType="textFilter"
             android:maxLines="1"
             android:nextFocusDown="@+id/input_mac_pair1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:hint="@string/label_upc_placeholder"
+            android:inputType="numberDecimal"/>
 
         <RelativeLayout
             android:id="@+id/manual_mac_root"

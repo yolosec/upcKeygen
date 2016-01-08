@@ -6,6 +6,8 @@ import android.util.Log;
 
 import net.yolosec.upckeygen.R;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /*
@@ -31,6 +33,8 @@ import java.util.List;
  */
 public class UpcKeygen extends Keygen {
     private static final String TAG="UpcKeygen";
+    private final List<String> computedKeys = new LinkedList<>();
+
     static {
         System.loadLibrary("upc");
     }
@@ -73,7 +77,9 @@ public class UpcKeygen extends Keygen {
         String[] results = null;
         try {
             Log.d(TAG, "Starting a new task for ssid: " + getSsidName());
-            results = upcNative(getSsidName().getBytes("US-ASCII"));
+            upcNative(getSsidName().getBytes("US-ASCII"));
+            results = computedKeys.toArray(new String[computedKeys.size()]);
+
         } catch (Exception e) {
             Log.e(TAG, "Exception in native computation", e);
             setErrorCode(R.string.msg_err_native);
@@ -89,9 +95,34 @@ public class UpcKeygen extends Keygen {
     }
 
     /**
+     * Called by native code when a key is computed.
+     */
+    public void onKeyComputed(String key){
+        computedKeys.add(key);
+        if (monitor != null){
+            monitor.onKeyComputed();
+        }
+    }
+
+    /**
+     * Called by native code when a progress in computation is made.
+     * @param progress
+     */
+    public void onProgressed(double progress){
+        if (monitor != null){
+            monitor.onKeygenProgressed(progress);
+        }
+    }
+
+    @Override
+    public boolean keygenSupportsProgress() {
+        return true;
+    }
+
+    /**
      * Native key generator implementation.
      * @param essid
      * @return
      */
-    private native String[] upcNative(byte[] essid);
+    private native void upcNative(byte[] essid);
 }

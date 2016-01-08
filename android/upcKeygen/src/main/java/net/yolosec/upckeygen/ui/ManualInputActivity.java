@@ -36,7 +36,7 @@ public class ManualInputActivity extends Activity implements OnItemSelectionList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
 
         if (savedInstanceState == null) {
             getFragmentManager()

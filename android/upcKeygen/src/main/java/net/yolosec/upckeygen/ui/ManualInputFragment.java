@@ -156,7 +156,7 @@ public class ManualInputFragment extends Fragment {
 
             @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             public void onClick(View v) {
-                String ssid = edit.getText().toString().trim();
+                String ssid = "UPC" + edit.getText().toString().trim();
                 StringBuilder mac = new StringBuilder();
                 boolean warnUnused = false;
                 for (EditText m : macs) {
