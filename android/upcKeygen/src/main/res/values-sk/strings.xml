@@ -153,7 +153,7 @@
     <string name="if_not_working">Pokiaľ nefunguje žiadny vypočítaný kľúč, router nie je postihnutý zraniteľnosťou alebo bolo zmenené heslo.</string>
     <string name="label_upc_enter">Zadajte číselnú časť názvu UPC WiFi siete</string>
     <string name="msg_unspported_network">Pre zadaný názov siete nie je možné vypočítať kľúče.</string>
-    <string name="router_models">Konkrétne tieto 2 modely routerov: UbeeEVW3226, Technicolor7200</string>
+    <string name="router_models">Konkrétne tieto 2 modely routerov: UbeeEVW3226, Technicolor7200.</string>
     <string name="bt_close">Zavrieť</string>
     <string name="bt_manual_calc">Generovať</string>
     <string name="bt_manual_cancel">Zrušiť</string>
