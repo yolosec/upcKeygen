@@ -173,9 +173,12 @@
     <string name="app_name">UPC Keygen</string>
     <string name="msg_welcome_title">UPC Keygen</string>
     <string name="label_upc">UPC</string>
-    <string name="label_upc_enter">Enter integral part of the UPC WiFi name</string>
+    <string name="label_upc_enter">Enter numerical part of the UPC WiFi name</string>
     <string name="label_upc_placeholder">1234567</string>
     <string name="key_computed">Keys found: %d</string>
+    <string name="vulnerability_info">WiFi names with 7 digits were reported to be vulnerable.</string>
+    <string name="router_models">In particular 2 router models: UbeeEVW3226, Technicolor7200</string>
+    <string name="if_not_working">If none of passwords work, router is not affected or password has been changed.</string>
     <!--UNTRANSLATED-->
 
 </resources>

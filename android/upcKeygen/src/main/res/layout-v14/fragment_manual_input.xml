@@ -67,6 +67,41 @@
             android:hint="@string/label_upc_placeholder"
             android:inputType="numberDecimal"/>
 
+        <LinearLayout
+            android:id="@+id/text_info"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/manual_autotext"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/vulnerability_info"
+                android:id="@+id/vulnerability_info" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/router_models"
+                android:id="@+id/router_models"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/if_not_working"
+                android:id="@+id/not_working"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/manual_mac_root"
             android:layout_width="wrap_content"
