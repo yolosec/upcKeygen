@@ -37,7 +37,7 @@
 
         <TextView
             android:id="@+id/label_upc"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/BaseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -50,7 +50,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/manual_autotext"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/BaseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_ssid"
