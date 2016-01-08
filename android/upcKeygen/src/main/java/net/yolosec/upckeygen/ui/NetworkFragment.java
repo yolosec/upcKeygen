@@ -170,20 +170,40 @@ public class NetworkFragment extends Fragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
+	private String buildShareString(){
+		final StringBuilder message = new StringBuilder(wifiNetwork.getSsidName());
+		message.append("\n");
+		for (String password : passwordList) {
+			message.append(password);
+			message.append('\n');
+		}
+		return message.toString();
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_share:
+				try {
+					if (passwordList == null)
+						return true;
+					Intent i = new Intent(Intent.ACTION_SEND);
+					i.setType("text/plain");
+					i.putExtra(Intent.EXTRA_SUBJECT, wifiNetwork.getSsidName()
+							+ getString(R.string.share_msg_begin));
+					i.putExtra(Intent.EXTRA_TEXT, buildShareString());
+					startActivity(Intent.createChooser(i,
+							getString(R.string.share_title)));
+				} catch (Exception e) {
+					Toast.makeText(getActivity(), R.string.msg_err_sendto,
+							Toast.LENGTH_SHORT).show();
+				}
+				return true;
 			case R.id.menu_save_sd:
 				if (passwordList == null)
 					return true;
-				final StringBuilder message = new StringBuilder(wifiNetwork.getSsidName());
-				message.append("\n");
-				for (String password : passwordList) {
-					message.append(password);
-					message.append('\n');
-				}
 
-				final String toCopy = message.toString();
+				final String toCopy = buildShareString();
 				try {
 					if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
 						android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
