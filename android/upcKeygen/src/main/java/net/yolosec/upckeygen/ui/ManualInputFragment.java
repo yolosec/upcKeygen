@@ -242,15 +242,7 @@ public class ManualInputFragment extends Fragment {
 
         @Override
         protected WiFiNetwork doInBackground(Void... params) {
-            final ZipInputStream magicInfo = new ZipInputStream(getActivity()
-                    .getResources().openRawResource(R.raw.magic_info));
-            final WiFiNetwork wifi = new WiFiNetwork(ssid, mac, 0, "",
-                    magicInfo);
-            try {
-                magicInfo.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            final WiFiNetwork wifi = new WiFiNetwork(ssid, mac, 0, "", null);
             return wifi;
         }
     }
