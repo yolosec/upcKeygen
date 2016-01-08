@@ -151,7 +151,7 @@
     <string name="dialog_nativecalc_msg">Generování může trvat až 2 minuty, prosím čekejte.</string>
     <string name="key_computed">Nalezených klíčů:  %d</string>
     <string name="if_not_working">Pokud nefunguje žádný vypočtený klíč, router není postižen zrenitelností nebo bylo změněno heslo.</string>
-    <string name="label_upc_enter">Zadejte číselnou část názvu UPC WiFi sítˇ</string>
+    <string name="label_upc_enter">Zadejte číselnou část názvu UPC WiFi sítě</string>
     <string name="msg_unspported_network">Pro zadaný název síte není možné vypočítat klíče.</string>
     <string name="router_models">Konkrétně tyto 2 modely routrů: UbeeEVW3226, Technicolor7200</string>
     <string name="bt_close">Zavřít</string>

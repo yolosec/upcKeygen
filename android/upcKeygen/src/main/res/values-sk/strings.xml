@@ -148,7 +148,7 @@
     <string name="label_upc">UPC</string>
     <string name="label_upc_placeholder">1234567</string>
     <string name="vulnerability_info">WiFi s 7 číslicami sú reportované ako zraniteľné.</string>
-    <string name="dialog_nativecalc_msg">Generovanie môže trvať až 2 minúty. Prosím čakajte. </string>
+    <string name="dialog_nativecalc_msg">Generovanie môže trvať až 2 minúty. Prosím čakajte.</string>
     <string name="key_computed">Nájdených kľúčov:  %d</string>
     <string name="if_not_working">Pokiaľ nefunguje žiadny vypočítaný kľúč, router nie je postihnutý zraniteľnosťou alebo bolo zmenené heslo.</string>
     <string name="label_upc_enter">Zadajte číselnú časť názvu UPC WiFi siete</string>
