@@ -11,10 +11,10 @@ import java.util.zip.ZipInputStream;
 
 public class WirelessMatcher {
     public synchronized static ArrayList<Keygen> getKeygen(String ssid,
-                                                           String mac, ZipInputStream magicInfo) {
+                                                           String mac, int mode, ZipInputStream magicInfo) {
         final ArrayList<Keygen> keygens = new ArrayList<>();
         if (ssid.matches("UPC[0-9]{5,8}")) {
-            keygens.add(new UpcKeygen(ssid, mac));
+            keygens.add(new UpcKeygen(ssid, mac, mode));
         }
 
         return keygens;

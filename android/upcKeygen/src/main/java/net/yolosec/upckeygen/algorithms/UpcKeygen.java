@@ -48,8 +48,8 @@ public class UpcKeygen extends Keygen {
         }
     };
 
-    public UpcKeygen(String ssid, String mac) {
-        super(ssid, mac);
+    public UpcKeygen(String ssid, String mac, int mode) {
+        super(ssid, mac, mode);
     }
 
     private UpcKeygen(Parcel in) {
@@ -79,7 +79,7 @@ public class UpcKeygen extends Keygen {
         String[] results = null;
         try {
             Log.d(TAG, "Starting a new task for ssid: " + getSsidName());
-            upcNative(getSsidName().getBytes("US-ASCII"), 3);
+            upcNative(getSsidName().getBytes("US-ASCII"), getMode());
             results = computedKeys.toArray(new String[computedKeys.size()]);
 
         } catch (Exception e) {

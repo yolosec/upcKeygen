@@ -67,12 +67,35 @@
             android:hint="@string/label_upc_placeholder"
             android:inputType="numberDecimal"/>
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/freqs"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/manual_autotext"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp">
+            <CheckBox android:id="@+id/radio_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/freq_24"/>
+            <CheckBox android:id="@+id/radio_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/freq_5"/>
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/text_info"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/manual_autotext"
+            android:layout_below="@+id/freqs"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

@@ -161,4 +161,7 @@
     <string name="bt_share">Sdílet</string>
     <string name="msg_copied"><xliff:g id="arg">%1$s</xliff:g> bylo zkopírováno do schránky!</string>
     <string name="msg_results">Klikněte na jeden z klíčů ke skopírování.\nOtevřou se nastavení WiFi kde ho můžete zkusit.</string>
+    <string name="freq_24">2.4 GHz</string>
+    <string name="freq_5">5 GHz</string>
+    <string name="freq_both">2.4 + 5 Ghz</string>
 </resources>

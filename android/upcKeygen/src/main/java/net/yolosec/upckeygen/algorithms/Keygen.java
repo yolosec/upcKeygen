@@ -43,14 +43,16 @@ public abstract class Keygen implements Parcelable {
     };
     final private String ssidName;
     final private String macAddress;
+    final private int mode;
     private final List<String> pwList;
     private boolean stopRequested = false;
     private int errorCode;
     protected KeygenMonitor monitor;
 
-    public Keygen(final String ssid, final String mac) {
+    public Keygen(final String ssid, final String mac, int mode) {
         this.ssidName = ssid;
         this.macAddress = mac.replace(":", "").toUpperCase(Locale.getDefault());
+        this.mode = mode;
         this.pwList = new ArrayList<>();
     }
 
@@ -61,6 +63,7 @@ public abstract class Keygen implements Parcelable {
         else
             macAddress = "";
         errorCode = in.readInt();
+        mode = in.readInt();
         stopRequested = in.readInt() == 1;
         pwList = in.createStringArrayList();
     }
@@ -128,6 +131,10 @@ public abstract class Keygen implements Parcelable {
         this.monitor = monitor;
     }
 
+    public int getMode() {
+        return mode;
+    }
+
     public int getSupportState() {
         return SUPPORTED;
     }
@@ -142,6 +149,7 @@ public abstract class Keygen implements Parcelable {
         if (macAddress != null)
             dest.writeString(macAddress);
         dest.writeInt(errorCode);
+        dest.writeInt(mode);
         dest.writeInt(stopRequested ? 1 : 0);
         dest.writeStringList(pwList);
     }

@@ -33,26 +33,39 @@ public class WiFiNetwork implements Comparable<WiFiNetwork>, Parcelable {
 	final private String ssidName;
 	final private String macAddress;
 	final private int level;
+	final private int mode;
 	final private String encryption;
 	private ScanResult scanResult;
 	private ArrayList<Keygen> keygens;
 
 	public WiFiNetwork(ScanResult scanResult, ZipInputStream magicInfo) {
 		this(scanResult.SSID, scanResult.BSSID,
-				WifiManager.calculateSignalLevel(scanResult.level, 4),
+				WifiManager.calculateSignalLevel(scanResult.level, 4), modeFromFreq(scanResult.frequency),
                 scanResult.capabilities, magicInfo);
         this.scanResult = scanResult;
 	}
 
-	public WiFiNetwork(final String ssid, final String mac, int level,
+	public WiFiNetwork(final String ssid, final String mac, int level, int mode,
 					   String enc, ZipInputStream magicInfo) {
 		this.ssidName = ssid;
 		this.macAddress = mac.toUpperCase(Locale.getDefault());
 		this.level = level;
+		this.mode = mode;
 		this.encryption = enc;
 		this.scanResult = null;
-		this.keygens = WirelessMatcher.getKeygen(ssidName, macAddress,
+		this.keygens = WirelessMatcher.getKeygen(ssidName, macAddress, mode,
 				magicInfo);
+	}
+
+	private static int modeFromFreq(int freq){
+		int mode = 0;
+		if (freq > 4500 && freq < 6900){
+			mode |= 2;
+		}
+		if (freq > 2300 && freq < 2700){
+			mode |= 1;
+		}
+		return mode;
 	}
 
 	private WiFiNetwork(Parcel in) {
@@ -66,6 +79,7 @@ public class WiFiNetwork implements Comparable<WiFiNetwork>, Parcelable {
 		else
 			encryption = OPEN;
 		level = in.readInt();
+		mode = in.readInt();
 		keygens = new ArrayList<>();
 		in.readList(keygens, Keygen.class.getClassLoader());
 		if (in.readInt() == 1)
@@ -141,6 +155,7 @@ public class WiFiNetwork implements Comparable<WiFiNetwork>, Parcelable {
 		if (encryption != null)
 			dest.writeString(encryption);
 		dest.writeInt(level);
+		dest.writeInt(mode);
 		dest.writeList(keygens);
 		dest.writeInt(scanResult != null ? 1 : 0);
 		if (scanResult != null)
@@ -160,7 +175,7 @@ public class WiFiNetwork implements Comparable<WiFiNetwork>, Parcelable {
     }
 
 	public void setKeygens(ZipInputStream magicInfo) {
-		this.keygens = WirelessMatcher.getKeygen(ssidName, macAddress,
+		this.keygens = WirelessMatcher.getKeygen(ssidName, macAddress, mode,
 				magicInfo);
 	}
 }

@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -72,6 +73,9 @@ public class ManualInputFragment extends Fragment {
                 R.array.supported_routers);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, routers);
+        final CheckBox freq24 = (CheckBox) root.findViewById(R.id.radio_24);
+        final CheckBox freq5 = (CheckBox) root.findViewById(R.id.radio_5);
+
         final AutoCompleteTextView edit = (AutoCompleteTextView) root
                 .findViewById(R.id.manual_autotext);
         edit.setAdapter(adapter);
@@ -91,7 +95,7 @@ public class ManualInputFragment extends Fragment {
                 return null;
             }
         };
-        final InputFilter lengthFilter = new InputFilter.LengthFilter(9); //Filter to 10 characters
+        final InputFilter lengthFilter = new InputFilter.LengthFilter(8); //Filter to 10 characters
 
         edit.setFilters(new InputFilter[]{filterSSID, lengthFilter});
         final EditText macs[] = new EditText[6];
@@ -176,8 +180,14 @@ public class ManualInputFragment extends Fragment {
                         Toast.makeText(getActivity(), R.string.msg_invalid_mac,
                                 Toast.LENGTH_SHORT).show();
                 }
+                if (!freq24.isChecked() && !freq5.isChecked()){
+                    freq24.setChecked(true);
+                    freq5.setChecked(true);
+                }
+
+                int mode = (freq24.isChecked() ? 1 : 0) | (freq5.isChecked() ? 2 : 0);
                 KeygenMatcherTask matcher = new KeygenMatcherTask(ssid, mac
-                        .toString().toUpperCase(Locale.getDefault()));
+                        .toString().toUpperCase(Locale.getDefault()), mode);
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
                     matcher.execute();
                 } else {
@@ -216,10 +226,12 @@ public class ManualInputFragment extends Fragment {
     private class KeygenMatcherTask extends AsyncTask<Void, Void, WiFiNetwork> {
         private final String ssid;
         private final String mac;
+        private int mode;
 
-        public KeygenMatcherTask(String ssid, String mac) {
+        public KeygenMatcherTask(String ssid, String mac, int mode) {
             this.ssid = ssid;
             this.mac = mac;
+            this.mode = mode;
         }
 
         @Override
@@ -244,7 +256,7 @@ public class ManualInputFragment extends Fragment {
 
         @Override
         protected WiFiNetwork doInBackground(Void... params) {
-            final WiFiNetwork wifi = new WiFiNetwork(ssid, mac, 0, "", null);
+            final WiFiNetwork wifi = new WiFiNetwork(ssid, mac, 0, mode, "", null);
             return wifi;
         }
     }

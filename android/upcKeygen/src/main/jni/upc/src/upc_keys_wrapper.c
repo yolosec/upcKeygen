@@ -44,7 +44,7 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
   uint32_t i, cnt=0;
 
   target = strtoul(e_ssid + 3, NULL, 0);
-  IPRINTF("Computing UPC keys for essid [%s], target %lu", e_ssid, (unsigned long)target);
+  IPRINTF("Computing UPC keys for essid [%s], target %lu, mode: %d", e_ssid, (unsigned long)target, mode);
   unsigned long stop_ctr = 0;
   unsigned long iter_ctr = 0;
 
@@ -67,9 +67,9 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
             (*env)->CallVoidMethod(env, obj, on_progressed, (jdouble)current_progress);
           }
 
-          matched[0]=upc_generate_ssid(buf, MAGIC_24GHZ) == target;
-          matched[1]=upc_generate_ssid(buf, MAGIC_5GHZ) == target;
-          if (((mode & 1) && !matched[0]) && ((mode & 2) && !matched[1])){
+          matched[0]= (mode & 1) && upc_generate_ssid(buf, MAGIC_24GHZ) == target;
+          matched[1]= (mode & 2) && upc_generate_ssid(buf, MAGIC_5GHZ) == target;
+          if (!matched[0] && !matched[1]){
             continue;
           }
 

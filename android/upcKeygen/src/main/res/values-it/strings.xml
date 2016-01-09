@@ -184,5 +184,8 @@
     <string name="vulnerability_info">WiFi names with 7 digits were reported to be vulnerable.</string>
     <string name="router_models">In particular 2 router models: UbeeEVW3226, Technicolor7200</string>
     <string name="if_not_working">If none of passwords work, router is not affected or password has been changed.</string>
+    <string name="freq_24">2.4 GHz</string>
+    <string name="freq_5">5 GHz</string>
+    <string name="freq_both">2.4 + 5 Ghz</string>
 
 </resources>
