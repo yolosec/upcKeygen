@@ -19,7 +19,7 @@ extern "C" {
  * Signature: ([B[BI)[Ljava/lang/String;
  */
 JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
-        (JNIEnv *, jobject, jbyteArray);
+        (JNIEnv *, jobject, jbyteArray, jint);
 
 #ifdef __cplusplus
 }

@@ -79,7 +79,7 @@ public class UpcKeygen extends Keygen {
         String[] results = null;
         try {
             Log.d(TAG, "Starting a new task for ssid: " + getSsidName());
-            upcNative(getSsidName().getBytes("US-ASCII"));
+            upcNative(getSsidName().getBytes("US-ASCII"), 3);
             results = computedKeys.toArray(new String[computedKeys.size()]);
 
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class UpcKeygen extends Keygen {
     /**
      * Called by native code when a key is computed.
      */
-    public void onKeyComputed(String key){
+    public void onKeyComputed(String key, String serial, int mode, int type){
         computedKeys.add(key);
         if (monitor != null){
             monitor.onKeyComputed();
@@ -126,5 +126,5 @@ public class UpcKeygen extends Keygen {
      * @param essid
      * @return
      */
-    private native void upcNative(byte[] essid);
+    private native void upcNative(byte[] essid, int mode);
 }
