@@ -20,7 +20,6 @@
 package net.yolosec.upckeygen.ui;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -33,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -239,11 +239,16 @@ public class NetworkFragment extends Fragment {
 					Toast.makeText(getActivity(),
 							getString(R.string.msg_copied, key),
 							Toast.LENGTH_SHORT).show();
-					ClipboardManager clipboard = (ClipboardManager) getActivity()
-							.getSystemService(Context.CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("key",key);
-					// Set the clipboard's primary clip.
-					clipboard.setPrimaryClip(clip);
+
+					if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+						android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+						clipboard.setText(key);
+					} else {
+						android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+						android.content.ClipData clip = android.content.ClipData.newPlainText("key", key);
+						clipboard.setPrimaryClip(clip);
+					}
+
 					openWifiSettings();
 				}
 			});

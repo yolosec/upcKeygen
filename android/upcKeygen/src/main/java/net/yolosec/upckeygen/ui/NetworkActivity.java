@@ -19,35 +19,40 @@
 
 package net.yolosec.upckeygen.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import net.yolosec.upckeygen.R;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
-public class NetworkActivity extends Activity {
-
+public class NetworkActivity extends AppCompatActivity {
+    private static final String TAG = "NetworkActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch(Exception e){
+            Log.e(TAG, "Exception", e);
+        }
 
         if (savedInstanceState == null) {
             final Bundle arguments = new Bundle();
             final WiFiNetwork wiFiNetwork = getIntent().getParcelableExtra(NetworkFragment.NETWORK_ID);
             arguments.putParcelable(NetworkFragment.NETWORK_ID, wiFiNetwork);
             setTitle(wiFiNetwork.getSsidName());
+
             NetworkFragment fragment = new NetworkFragment();
             fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .add(R.id.keygen_fragment, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.keygen_fragment, fragment).commit();
         }
     }
 

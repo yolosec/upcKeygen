@@ -22,6 +22,8 @@ package net.yolosec.upckeygen.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -30,16 +32,21 @@ import net.yolosec.upckeygen.R;
 import net.yolosec.upckeygen.algorithms.Keygen;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
-public class ManualInputActivity extends Activity implements OnItemSelectionListener{
+public class ManualInputActivity extends AppCompatActivity implements OnItemSelectionListener{
+    private static final String TAG = "ManualInputActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment);
-        getActionBar().setDisplayHomeAsUpEnabled(false);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }catch(Exception e){
+            Log.e(TAG, "Exception", e);
+        }
 
         if (savedInstanceState == null) {
-            getFragmentManager()
+            getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.keygen_fragment,
                             ManualInputFragment
