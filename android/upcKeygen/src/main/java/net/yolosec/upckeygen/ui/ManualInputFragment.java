@@ -25,9 +25,7 @@ import net.yolosec.upckeygen.R;
 import net.yolosec.upckeygen.algorithms.Keygen;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
-import java.io.IOException;
 import java.util.Locale;
-import java.util.zip.ZipInputStream;
 
 public class ManualInputFragment extends Fragment {
     public final static String MAC_ADDRESS_ARG = "mac_address";

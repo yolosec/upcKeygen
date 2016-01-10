@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">UPC Keygen</string>
     <string name="msg_welcome_title">UPC Keygen</string>
     <string name="msg_welcome_text">Thank you for trying Router Keygen. If you like this application, please consider donating. The link is on the preference menu. Your donation will motivate the authors to improve on this great open-source tool.</string>

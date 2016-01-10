@@ -20,8 +20,6 @@
 package net.yolosec.upckeygen.ui;
 
 import android.annotation.TargetApi;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,11 +53,9 @@ import net.yolosec.upckeygen.algorithms.Keygen;
 import net.yolosec.upckeygen.algorithms.KeygenMonitor;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.zip.ZipInputStream;
 
 public class NetworkFragment extends Fragment {
 	public static final String NETWORK_ID = "vulnerable_network";

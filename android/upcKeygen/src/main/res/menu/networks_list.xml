@@ -16,17 +16,17 @@
    You should have received a copy of the GNU General Public License
    along with Router Keygen.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:hmkcode="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/wifi_scan"
         android:icon="@drawable/ic_refresh_white_24dp"
-        android:showAsAction="ifRoom"
+        hmkcode:showAsAction="ifRoom"
         android:title="@string/menu_scan" />
     <item
         android:id="@+id/manual_input"
         android:icon="@drawable/ic_create_white_24dp"
-        android:showAsAction="ifRoom"
+        hmkcode:showAsAction="ifRoom"
         android:title="@string/menu_manual" />
 
 </menu>

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import net.yolosec.upckeygen.R;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
