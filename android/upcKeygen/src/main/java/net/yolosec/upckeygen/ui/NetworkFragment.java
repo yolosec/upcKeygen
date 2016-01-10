@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -51,10 +52,13 @@ import net.yolosec.upckeygen.BuildConfig;
 import net.yolosec.upckeygen.R;
 import net.yolosec.upckeygen.algorithms.Keygen;
 import net.yolosec.upckeygen.algorithms.KeygenMonitor;
+import net.yolosec.upckeygen.algorithms.WiFiKey;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NetworkFragment extends Fragment {
@@ -65,7 +69,7 @@ public class NetworkFragment extends Fragment {
 	private KeygenThread thread;
 	private ViewSwitcher root;
 	private TextView messages;
-	private List<String> passwordList;
+	private ArrayList<WiFiKey> passwordList;
 
 	public NetworkFragment() {
 	}
@@ -79,11 +83,14 @@ public class NetworkFragment extends Fragment {
 			thread = new KeygenThread(wifiNetwork);
 		}
 		if (savedInstanceState != null) {
-			String[] passwords = savedInstanceState
-					.getStringArray(PASSWORD_LIST);
-			if (passwords != null) {
-				passwordList = new ArrayList<>();
-				passwordList.addAll(Arrays.asList(passwords));
+			final ArrayList<Parcelable> arList = savedInstanceState.getParcelableArrayList(PASSWORD_LIST);
+			if (arList != null) {
+				for (Parcelable p : arList) {
+					if (p instanceof WiFiKey) {
+						final WiFiKey key = (WiFiKey) p;
+						passwordList.add(key);
+					}
+				}
 			}
 		}
 		setHasOptionsMenu(true);
@@ -111,8 +118,7 @@ public class NetworkFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (passwordList != null) {
-			outState.putStringArray(PASSWORD_LIST,
-					passwordList.toArray(new String[passwordList.size()]));
+			outState.putParcelableArrayList(PASSWORD_LIST, passwordList);
 		}
 	}
 
@@ -169,8 +175,8 @@ public class NetworkFragment extends Fragment {
 	private String buildShareString(){
 		final StringBuilder message = new StringBuilder(wifiNetwork.getSsidName());
 		message.append("\n");
-		for (String password : passwordList) {
-			message.append(password);
+		for (WiFiKey password : passwordList) {
+			message.append(password.getKey());
 			message.append('\n');
 		}
 		return message.toString();
@@ -226,30 +232,50 @@ public class NetworkFragment extends Fragment {
 		if (passwordList.isEmpty()) {
 			root.findViewById(R.id.loading_spinner).setVisibility(View.GONE);
 			messages.setText(R.string.msg_errnomatches);
+
 		} else {
 			final ListView list = (ListView) root.findViewById(R.id.list_keys);
+			Collections.sort(passwordList, new Comparator<WiFiKey>() {
+				@Override
+				public int compare(WiFiKey lhs, WiFiKey rhs) {
+					if (lhs.getBandType() != rhs.getBandType()){
+						return lhs.getBandType() < rhs.getBandType() ? -1 : 1;
+					}
+
+					final String serialL = lhs.getSerial();
+					final String serialR = rhs.getSerial();
+					if (serialL == null && serialR != null){
+						return -1;
+					} else if (serialL != null && serialR == null){
+						return 1;
+					} else if (serialL != null && serialR != null && !serialL.equals(serialR)){
+						return serialL.compareTo(serialR);
+					}
+
+					return lhs.getKey().compareTo(rhs.getKey());
+				}
+			});
+
 			list.setOnItemClickListener(new OnItemClickListener() {
-				public void onItemClick(AdapterView<?> parent, View view,
-										int position, long id) {
-					final String key = ((TextView) view).getText().toString();
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					final WiFiKey key = (WiFiKey) parent.getItemAtPosition(position);
 					Toast.makeText(getActivity(),
-							getString(R.string.msg_copied, key),
+							getString(R.string.msg_copied, key.getKey()),
 							Toast.LENGTH_SHORT).show();
 
 					if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
 						android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-						clipboard.setText(key);
+						clipboard.setText(key.getKey());
 					} else {
 						android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-						android.content.ClipData clip = android.content.ClipData.newPlainText("key", key);
+						android.content.ClipData clip = android.content.ClipData.newPlainText("key", key.getKey());
 						clipboard.setPrimaryClip(clip);
 					}
 
 					openWifiSettings();
 				}
 			});
-			list.setAdapter(new ArrayAdapter<>(getActivity(),
-					android.R.layout.simple_list_item_1, passwordList));
+			list.setAdapter(new WiFiKeyAdapter(getActivity(), android.R.layout.simple_list_item_1, passwordList));
 			root.showNext();
 		}
 	}
@@ -275,7 +301,7 @@ public class NetworkFragment extends Fragment {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	}
 
-	private class KeygenThread extends AsyncTask<Void, Integer, List<String>> implements KeygenMonitor {
+	private class KeygenThread extends AsyncTask<Void, Integer, List<WiFiKey>> implements KeygenMonitor {
 		private final static int SHOW_TOAST = 0;
 		private final static int SHOW_MESSAGE_WITH_SPINNER = 1;
 		private final static int SHOW_MESSAGE_NO_SPINNER = 2;
@@ -291,12 +317,12 @@ public class NetworkFragment extends Fragment {
 		}
 
 		@Override
-		protected void onPostExecute(List<String> result) {
+		protected void onPostExecute(List<WiFiKey> result) {
 			if (getActivity() == null)
 				return;
 			if (result == null)
 				return;
-			passwordList = result;
+			passwordList = new ArrayList<>(result);
 			displayResults();
 		}
 
@@ -371,11 +397,11 @@ public class NetworkFragment extends Fragment {
 		}
 
 		@Override
-		protected List<String> doInBackground(Void... params) {
-			final List<String> result = new ArrayList<>();
+		protected List<WiFiKey> doInBackground(Void... params) {
+			final List<WiFiKey> result = new ArrayList<>();
 			for (Keygen keygen : wifiNetwork.getKeygens()) {
 				try {
-					final List<String> keygenResult = calcKeys(keygen);
+					final List<WiFiKey> keygenResult = calcKeys(keygen);
 					if (keygenResult != null)
 						result.addAll(keygenResult);
 				} catch (Exception e) {
@@ -385,7 +411,7 @@ public class NetworkFragment extends Fragment {
 			return result;
 		}
 
-		private List<String> calcKeys(Keygen keygen) {
+		private List<WiFiKey> calcKeys(Keygen keygen) {
 			if (keygen.keygenSupportsProgress()){
 				keygen.setMonitor(this);
 				publishProgress(CHANGE_DETERMINATE, 1);
@@ -394,7 +420,7 @@ public class NetworkFragment extends Fragment {
 			}
 
 			long begin = System.currentTimeMillis();
-			final List<String> result = keygen.getKeys();
+			final List<WiFiKey> result = keygen.getKeysExt();
 			long end = System.currentTimeMillis() - begin;
 			if (BuildConfig.DEBUG)
 				Log.d(TAG, "Time to solve:" + end);

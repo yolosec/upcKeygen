@@ -186,6 +186,7 @@
     <string name="freq_24">2.4 GHz</string>
     <string name="freq_5">5 GHz</string>
     <string name="freq_both">2.4 + 5 Ghz</string>
+    <string name="serial">Router SN: %s</string>
     <!-- AUTOCOMPLETE SUPPORT -->
     <string-array name="supported_routers" translatable="false">
         <item>Alice-</item>

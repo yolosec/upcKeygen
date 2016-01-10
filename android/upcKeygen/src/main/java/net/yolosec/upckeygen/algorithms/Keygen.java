@@ -22,6 +22,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,7 +44,7 @@ public abstract class Keygen implements Parcelable {
     final private String ssidName;
     final private String macAddress;
     final private int mode;
-    private final List<String> pwList;
+    private final List<WiFiKey> pwList = new ArrayList<>();
     private boolean stopRequested = false;
     private int errorCode;
     protected KeygenMonitor monitor;
@@ -52,7 +53,6 @@ public abstract class Keygen implements Parcelable {
         this.ssidName = ssid;
         this.macAddress = mac.replace(":", "").toUpperCase(Locale.getDefault());
         this.mode = mode;
-        this.pwList = new ArrayList<>();
     }
 
     Keygen(Parcel in) {
@@ -64,7 +64,7 @@ public abstract class Keygen implements Parcelable {
         errorCode = in.readInt();
         mode = in.readInt();
         stopRequested = in.readInt() == 1;
-        pwList = in.createStringArrayList();
+        in.readTypedList(pwList, WiFiKey.CREATOR);
     }
 
     static String incrementMac(String mac, int increment) {
@@ -95,16 +95,30 @@ public abstract class Keygen implements Parcelable {
         return ssidName;
     }
 
-    void addPassword(final String key) {
+    void addPassword(final WiFiKey key) {
         if (!pwList.contains(key))
             pwList.add(key);
     }
 
-    List<String> getResults() {
+    List<WiFiKey> getResults() {
         return pwList;
     }
 
     abstract public List<String> getKeys();
+
+    /**
+     * Override if want to support extended features.
+     * @return
+     */
+    public List<WiFiKey> getKeysExt(){
+        final List<String> keys = getKeys();
+        final List<WiFiKey> keysExt = new LinkedList<>();
+        for(String key : keys){
+            keysExt.add(new WiFiKey(key, null, WiFiKey.BAND_24 | WiFiKey.BAND_5));
+        }
+
+        return keysExt;
+    }
 
     /**
      * True if keygen supports progress reporting.
@@ -150,7 +164,8 @@ public abstract class Keygen implements Parcelable {
         dest.writeInt(errorCode);
         dest.writeInt(mode);
         dest.writeInt(stopRequested ? 1 : 0);
-        dest.writeStringList(pwList);
+        dest.writeTypedList(pwList);
+        //dest.writeParcelableArray(pwList.toArray(new Parcelable[pwList.size()]), 0);
     }
 
 }

@@ -6,6 +6,8 @@ import android.util.Log;
 
 import net.yolosec.upckeygen.R;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ import java.util.List;
  */
 public class UpcKeygen extends Keygen {
     private static final String TAG="UpcKeygen";
-    private final List<String> computedKeys = new LinkedList<>();
+    private final List<WiFiKey> computedKeys = new LinkedList<>();
 
     static {
         System.loadLibrary("upc");
@@ -73,23 +75,30 @@ public class UpcKeygen extends Keygen {
         super.setStopRequested(stopRequested);
     }
 
+    public void doComputeKeys() throws UnsupportedEncodingException {
+        Log.d(TAG, "Starting a new task for ssid: " + getSsidName());
+        upcNative(getSsidName().getBytes("US-ASCII"), getMode());
+    }
+
     @Override
     public List<String> getKeys() {
-        String[] results = null;
+        // not supported.
+        return Collections.emptyList();
+    }
+
+    public List<WiFiKey> getKeysExt(){
         try {
-            Log.d(TAG, "Starting a new task for ssid: " + getSsidName());
-            upcNative(getSsidName().getBytes("US-ASCII"), getMode());
-            results = computedKeys.toArray(new String[computedKeys.size()]);
+            doComputeKeys();
 
         } catch (Exception e) {
             Log.e(TAG, "Exception in native computation", e);
             setErrorCode(R.string.msg_err_native);
         }
 
-        if (isStopRequested() || results == null)
+        if (isStopRequested() || computedKeys.isEmpty())
             return null;
-        for (String result : results)
-            addPassword(result);
+        for (WiFiKey key : computedKeys)
+            addPassword(key);
         if (getResults().size() == 0)
             setErrorCode(R.string.msg_errnomatches);
         return getResults();
@@ -99,7 +108,7 @@ public class UpcKeygen extends Keygen {
      * Called by native code when a key is computed.
      */
     public void onKeyComputed(String key, String serial, int mode, int type){
-        computedKeys.add(key);
+        computedKeys.add(new WiFiKey(key, serial, mode, computedKeys.size()));
         if (monitor != null){
             monitor.onKeyComputed();
         }

@@ -87,7 +87,7 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
 
             jstring jpass = (*env)->NewStringUTF(env, pass);
             jstring jserial = (*env)->NewStringUTF(env, serial);
-            (*env)->CallVoidMethod(env, obj, on_key_computed, jpass, jserial, (jint)mx, (jint)0);
+            (*env)->CallVoidMethod(env, obj, on_key_computed, jpass, jserial, (jint)mx+1, (jint)0);
             (*env)->DeleteLocalRef(env, jpass);
             (*env)->DeleteLocalRef(env, jserial);
           }
