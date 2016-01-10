@@ -3,7 +3,7 @@
 Android port of the UPC default WPA2 password generator, based on https://haxx.in/upc_keys.c
 Licensed under [GPL](http://www.gnu.org/copyleft/gpl.html).
 
-Application will be soon available on GooglePlay:
+Application is also available on Google Play:
 https://play.google.com/store/apps/details?id=net.yolosec.upckeygen
 
 # Disclaimer
