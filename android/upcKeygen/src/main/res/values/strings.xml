@@ -90,6 +90,7 @@
     <string name="pref_donate_why">Buy me a coffee if you liked this application</string>
     <string name="pref_about">About UPC keygen</string>
     <string name="pref_about_desc">UPC keygen calculates default passwords for vulnerable UPC routers.\n\n<a href="https://github.com/yolosec/upcKeygen/">Project\'s Website</a>\n\n
+        This is not an official UPC application.\n
         Please use the application at your own risk and responsibility. It is only for educational and research purposes and to assess your home router security. Do not use the application to connect to networks you are not authorized to. Application is not intended as a tool for attackers.\n\nVersion: </string>
     <string name="pref_native">Native Calculation</string>
     <string name="pref_hinton_native">Calculating on target if it fails to find the dictionary</string>
