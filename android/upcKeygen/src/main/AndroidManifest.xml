@@ -40,6 +40,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.ManualInputActivity" />
         </activity>
+        <activity
+            android:name=".ui.AboutActivity"
+            android:configChanges="screenSize|keyboard|orientation"
+            android:theme="@style/AppBaseTheme"
+            android:label="@string/pref_about">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ManualInputActivity" />
+        </activity>
+        <activity
+            android:name=".ui.AboutTabHostActivity"
+            android:configChanges="screenSize|keyboard|orientation"
+            android:theme="@style/AppBaseTheme"
+            android:label="@string/pref_about">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ManualInputActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -66,7 +66,7 @@ public class NetworkActivity extends AppCompatActivity {
                 );
                 return true;
             case R.id.pref:
-//                startActivity(new Intent(this, Preferences.class));
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

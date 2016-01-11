@@ -71,11 +71,11 @@
     <string name="msg_wait">Veuillez patienter&#8230;</string>
     <string name="lb_manual_bssid">Adresse MAC (optionnelle):</string>
     <string name="dialog_about_credits">Credits</string>
-    <string name="dialog_about_credits_desc">Router Keygen est le résultat de nombreuses contributions provenant de personnes et d\'organisations:\n\n
-        Rui Araújo, Luís Fonseca, Ângela Igreja, Simone Guidi, Matthijs de Rijk, Van Hove Sven, Jon Uriarte, , <a href="http://wifiresearchers.wordpress.com/">White Hats Crew</a>, Fred Williams, Muris Kurgaš, <a href="http://websec.ca/">Pedro Joaquim</a>, chaeo, Nicolas DeRouet, Eduardo Laborin, Florian Frank, Axel Martinez, Victor Mignot, Martijn Gerkes, Alejandro Marquez, <a href="http://www.openssl.org/">OpenSSl</a>, <a href="http://ednolo.alumnos.upv.es/">Eduardo Novella</a>.</string>
+    <string name="dialog_about_credits_desc">UPC Keygen est le résultat de nombreuses contributions provenant de personnes et d\'organisations:\n\n
+        Ph4r05, Miroc, Rui Araújo, Luís Fonseca, <a href="http://haxx.in/">peter@haxx.in</a>.</string>
     <string name="dialog_about_license">Licence</string>
     <string name="dialog_about_license_desc">This application is under the GPLv3.\n\nYou can read its terms <a href="http://www.gnu.org/licenses/gpl-3.0.html">here</a>.\n\n
-        RouterKeygen is built using open source software:\n<a href="https://github.com/JakeWharton/ActionBarSherlock">ActionBarSherlock</a>\n<a href="https://github.com/iPaulPro/aFileChooser">aFileChooser</a>\n<a href="https://github.com/beworker/pinned-section-listview">PinnedSectionListView</a>\n<a href="https://code.google.com/p/android-wifi-connecter/">android-wifi-connecter</a>.\n\n  The license terms for this projects can be read by following the link.</string>
+        UPC keygen is built using open source software:\n\n<a href="https://github.com/routerkeygen/routerkeygenAndroid/">Routerkeygen</a>.\n<a href="https://haxx.in/upc_keys.c">upc_keys.c</a>\n\n  The license terms for this projects can be read by following the link.</string>
     <!-- UNTRANSLATED -->
     <string name="msg_app_updated">Cette application est à la dernière version.</string>
     <string name="update_title">Mise à jour disponible</string>
@@ -99,7 +99,7 @@
     <string name="pref_donate_why">Achetez-moi un café si vous aimez l\'application</string>
     <string name="pref_about">A propos de Router Keygen</string>
     <string name="pref_about_desc">Router Keygen calcule les clés par défaut de nombreux routerus.\n\n
-<a href="http://routerkeygen.github.io/">Site web</a>\n\nVersion: </string>
+<a href="http://routerkeygen.github.io/">Site web</a>\n\nPlease use the application at your own risk and responsibility. It is only for educational and research purposes and to assess your home router security. Do not use the application to connect to networks you are not authorized to. Application is not intended as a tool for attackers.\n\nVersion:  </string>
     <string name="pref_native">Calcule natif</string>
     <string name="pref_hinton_native">Calcul sur la cible si elle ne parvient pas à trouver le dictionnaire</string>
     <string name="pref_hintoff_native">Avertir si la clé n\'est pas trouvée dans le dictionnaire</string>

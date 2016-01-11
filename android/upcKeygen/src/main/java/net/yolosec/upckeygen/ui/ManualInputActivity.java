@@ -19,12 +19,21 @@
 
 package net.yolosec.upckeygen.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.yolosec.upckeygen.R;
@@ -33,6 +42,7 @@ import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
 public class ManualInputActivity extends AppCompatActivity implements OnItemSelectionListener{
     private static final String TAG = "ManualInputActivity";
+    private static final int DIALOG_ABOUT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +76,14 @@ public class ManualInputActivity extends AppCompatActivity implements OnItemSele
 //                );
                 return true;
             case R.id.pref:
-//                startActivity(new Intent(this, Preferences.class));
+                startActivity(new Intent(this, AboutTabHostActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.preferences, menu);
+        getMenuInflater().inflate(R.menu.preferences, menu);
         return true;
     }
 

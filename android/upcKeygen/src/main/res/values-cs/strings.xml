@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">UPC Keygen</string>
     <string name="msg_welcome_title">UPC Keygen</string>
-    <string name="msg_welcome_text">Thank you for trying Router Keygen. If you like this application, please consider donating. The link is on the preference menu. Your donation will motivate the authors to improve on this great open-source tool.</string>
+    <string name="msg_welcome_text">Thank you for trying UPC keygen. If you like this application, please consider donating. The link is on the preference menu. Your donation will motivate the authors to improve on this great open-source tool.</string>
     <string name="msg_welcome_tip">Select any supported network to generate possible keys.</string>
     <string name="menu_scan">Scan</string>
     <string name="menu_manual">Manual Input</string>
@@ -36,11 +36,11 @@
     <string name="msg_wait">Please wait…</string>
     <string name="lb_manual_bssid">MAC address (optional):</string>
     <string name="dialog_about_credits">Credits</string>
-    <string name="dialog_about_credits_desc">Router Keygen is the result of the invaluable contribution from the  following people/organizations:\n\n
-      Rui Araújo, Luís Fonseca, Ângela Igreja, Simone Guidi, Matthijs de Rijk, Van Hove Sven, Jon Uriarte, <a href="http://www.gnucitizen.org/">GNUCITIZEN</a>, <a href="http://wifiresearchers.wordpress.com/">White Hats Crew</a>, Fred Williams, Muris Kurgaš, <a href="http://websec.ca/">Pedro Joaquim</a>, chaeo, Nicolas DeRouet, Eduardo Laborin, Florian Frank, Axel Martínez, Victor Mignot, Martijn Gerkes, Alejandro Marquez,<a href="http://www.openssl.org/">OpenSSl</a>, <a href="http://ednolo.alumnos.upv.es/">Eduardo Novella</a>.</string>
+    <string name="dialog_about_credits_desc">UPC keygen is the result of the invaluable contribution from the  following people/organizations:\n\n
+      Ph4r05, Miroc, Rui Araújo, Luís Fonseca, <a href="http://haxx.in/">peter@haxx.in</a>.</string>
     <string name="dialog_about_license">License</string>
     <string name="dialog_about_license_desc">This application is under the GPLv3.\n\nYou can read its terms <a href="http://www.gnu.org/licenses/gpl-3.0.html">here</a>.\n\n
-        RouterKeygen is built using open source software:\n<a href="https://github.com/JakeWharton/ActionBarSherlock">ActionBarSherlock</a>\n<a href="https://github.com/iPaulPro/aFileChooser">aFileChooser</a>\n<a href="https://github.com/beworker/pinned-section-listview">PinnedSectionListView</a>\n<a href="https://code.google.com/p/android-wifi-connecter/">android-wifi-connecter</a>.\n\n  The license terms for this projects can be read by following the link.</string>
+        UPC keygen is built using open source software:\n\n<a href="https://github.com/routerkeygen/routerkeygenAndroid/">Routerkeygen</a>.\n<a href="https://haxx.in/upc_keys.c">upc_keys.c</a>\n\n  The license terms for this projects can be read by following the link.</string>
     <string name="msg_app_updated">The application is already at the latest version.</string>
     <string name="update_title">Update Available</string>
     <string name="update_notification">There is version <xliff:g id="version">%1$s</xliff:g> available.</string>
@@ -59,8 +59,8 @@
     <string name="pref_donate_paypal">Donate (Paypal)</string>
     <string name="pref_donate_google_play">Donate (Google Play)</string>
     <string name="pref_donate_why">Buy me a coffee if you liked this application</string>
-    <string name="pref_about">About Router Keygen</string>
-    <string name="pref_about_desc">Router Keygen calculates default passwords for several common routers.\n\n<a href="http://routerkeygen.github.io/">Project\'s Website</a>\n\nVersion: </string>
+    <string name="pref_about">About UPC keygen</string>
+    <string name="pref_about_desc">UPC keygen calculates default passwords for vulnerable UPC routers.\n\n<a href="https://github.com/yolosec/upcKeygen/">Project\'s Website</a>\n\nPlease use the application at your own risk and responsibility. It is only for educational and research purposes and to assess your home router security. Do not use the application to connect to networks you are not authorized to. Application is not intended as a tool for attackers.\n\nVersion: </string>
     <string name="pref_native">Native Calculation</string>
     <string name="pref_hinton_native">Calculating on target if it fails to find the dictionary</string>
     <string name="pref_hintoff_native">Only warns if it fails to find the dictionary</string>
@@ -126,7 +126,7 @@
     <string name="msg_no_correct_keys">No correct keys.</string>
     <string name="msg_auto_connect_running">The auto connect process is already running.</string>
     <string name="msg_auto_connect_warning">This feature doesn\'t work well with weak networks.</string>
-    <string name="crash_toast_text">Routerkeygen has crashed. Please send an email.</string>
+    <string name="crash_toast_text">UPC keygen has crashed. Please send an email.</string>
     <!-- FILE CHOOSER -->
     <string name="empty_directory">Empty Directory</string>
     <string name="storage_removed">Storage was removed or unmounted.</string>
