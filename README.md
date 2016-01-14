@@ -6,8 +6,6 @@ Licensed under [GPL](http://www.gnu.org/copyleft/gpl.html).
 Application is also available on Google Play:
 https://play.google.com/store/apps/details?id=net.yolosec.upckeygen
 
-Update: App got temporary suspended due to some problems, we are working hard to get it back. Meanwhile you can use built APKs in https://github.com/yolosec/upcKeygen/releases 
-
 # Disclaimer
 Please use the application at your own risk and responsibility. It is only for educational and research purposes and to assess
 your home router security. Do not use the application to connect to networks you are not authorized to. Application is not intended as a tool for attackers.
