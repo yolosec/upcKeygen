@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/pref"
-        android:icon="@drawable/ic_engine_outline"
+        android:icon="@drawable/ic_help_outline_white_36dp"
         android:orderInCategory="100"
         hmkcode:showAsAction="ifRoom"
         android:title="@string/pref_2section" />
