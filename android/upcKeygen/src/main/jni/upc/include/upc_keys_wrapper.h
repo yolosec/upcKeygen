@@ -21,6 +21,12 @@ extern "C" {
 JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
         (JNIEnv *, jobject, jbyteArray, jint);
 
+JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeeSsid
+        (JNIEnv *, jobject, jbyteArray);
+
+JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeePass
+        (JNIEnv *, jobject, jbyteArray);
+
 #ifdef __cplusplus
 }
 #endif

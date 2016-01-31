@@ -135,4 +135,18 @@ public class UpcKeygen extends Keygen {
      * @return
      */
     private native void upcNative(byte[] essid, int mode);
+
+    /**
+     * Returns SSID
+     * @param macc
+     * @return
+     */
+    private native String upcUbeeSsid(byte[] macc);
+
+    /**
+     * Returns passwd for given mac.
+     * @param mac
+     * @return
+     */
+    private native String upcUbeePass(byte[] mac);
 }
