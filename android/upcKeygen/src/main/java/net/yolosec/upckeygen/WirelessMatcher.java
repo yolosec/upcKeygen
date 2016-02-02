@@ -1,6 +1,8 @@
 package net.yolosec.upckeygen;
 
 
+import android.text.TextUtils;
+
 import net.yolosec.upckeygen.algorithms.Keygen;
 import net.yolosec.upckeygen.algorithms.UpcKeygen;
 
@@ -15,6 +17,8 @@ public class WirelessMatcher {
         final ArrayList<Keygen> keygens = new ArrayList<>();
         if (ssid.matches("UPC[0-9]{5,8}")) {
             keygens.add(new UpcKeygen(ssid, mac, mode));
+        } else if (TextUtils.isEmpty(ssid)){
+            keygens.add(new UpcKeygen(ssid, mac, mode, true));
         }
 
         return keygens;

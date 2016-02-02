@@ -38,13 +38,6 @@ public class WiFiNetwork implements Comparable<WiFiNetwork>, Parcelable {
 	private ScanResult scanResult;
 	private ArrayList<Keygen> keygens;
 
-	public WiFiNetwork(ScanResult scanResult, ZipInputStream magicInfo) {
-		this(scanResult.SSID, scanResult.BSSID,
-				WifiManager.calculateSignalLevel(scanResult.level, 4), modeFromFreq(scanResult.frequency),
-                scanResult.capabilities, magicInfo);
-        this.scanResult = scanResult;
-	}
-
 	public WiFiNetwork(final String ssid, final String mac, int level, int mode,
 					   String enc, ZipInputStream magicInfo) {
 		this.ssidName = ssid;
@@ -55,17 +48,6 @@ public class WiFiNetwork implements Comparable<WiFiNetwork>, Parcelable {
 		this.scanResult = null;
 		this.keygens = WirelessMatcher.getKeygen(ssidName, macAddress, mode,
 				magicInfo);
-	}
-
-	private static int modeFromFreq(int freq){
-		int mode = 0;
-		if (freq > 4500 && freq < 6900){
-			mode |= 2;
-		}
-		if (freq > 2300 && freq < 2700){
-			mode |= 1;
-		}
-		return mode;
 	}
 
 	private WiFiNetwork(Parcel in) {

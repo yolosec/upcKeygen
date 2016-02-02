@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +49,7 @@ public class NetworkActivity extends AppCompatActivity {
             final Bundle arguments = new Bundle();
             final WiFiNetwork wiFiNetwork = getIntent().getParcelableExtra(NetworkFragment.NETWORK_ID);
             arguments.putParcelable(NetworkFragment.NETWORK_ID, wiFiNetwork);
-            setTitle(wiFiNetwork.getSsidName());
+            setTitle(TextUtils.isEmpty(wiFiNetwork.getSsidName()) ? wiFiNetwork.getMacAddress() : wiFiNetwork.getSsidName());
 
             NetworkFragment fragment = new NetworkFragment();
             fragment.setArguments(arguments);

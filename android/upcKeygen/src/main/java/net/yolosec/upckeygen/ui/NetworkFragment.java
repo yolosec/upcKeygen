@@ -32,6 +32,7 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +42,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,7 +56,6 @@ import net.yolosec.upckeygen.algorithms.WiFiKey;
 import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -234,21 +233,24 @@ public class NetworkFragment extends Fragment {
 			messages.setText(R.string.msg_errnomatches);
 
 		} else {
+			WiFiKey wiFiKey = passwordList.get(0);
+			boolean isUbee = TextUtils.isEmpty(wiFiKey.getSerial());
+
 			final ListView list = (ListView) root.findViewById(R.id.list_keys);
 			Collections.sort(passwordList, new Comparator<WiFiKey>() {
 				@Override
 				public int compare(WiFiKey lhs, WiFiKey rhs) {
-					if (lhs.getBandType() != rhs.getBandType()){
+					if (lhs.getBandType() != rhs.getBandType()) {
 						return lhs.getBandType() < rhs.getBandType() ? -1 : 1;
 					}
 
 					final String serialL = lhs.getSerial();
 					final String serialR = rhs.getSerial();
-					if (serialL == null && serialR != null){
+					if (serialL == null && serialR != null) {
 						return -1;
-					} else if (serialL != null && serialR == null){
+					} else if (serialL != null && serialR == null) {
 						return 1;
-					} else if (serialL != null && serialR != null && !serialL.equals(serialR)){
+					} else if (serialL != null && !serialL.equals(serialR)) {
 						return serialL.compareTo(serialR);
 					}
 
@@ -275,7 +277,12 @@ public class NetworkFragment extends Fragment {
 					openWifiSettings();
 				}
 			});
-			list.setAdapter(new WiFiKeyAdapter(getActivity(), android.R.layout.simple_list_item_1, passwordList));
+			if (isUbee){
+				list.setAdapter(new WiFiKeyUbeeAdapter(getActivity(), android.R.layout.simple_list_item_1, passwordList));
+			} else {
+				list.setAdapter(new WiFiKeyAdapter(getActivity(), android.R.layout.simple_list_item_1, passwordList));
+			}
+
 			root.showNext();
 		}
 	}
