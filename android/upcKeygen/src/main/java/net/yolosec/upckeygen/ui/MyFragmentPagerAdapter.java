@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] {"Technicolor router", "Ubee router"};
+    private String tabTitles[] = new String[] {"From WiFi name", "From MAC address"};
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

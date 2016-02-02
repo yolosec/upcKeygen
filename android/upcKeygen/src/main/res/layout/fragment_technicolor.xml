@@ -90,14 +90,14 @@
                 android:id="@+id/vulnerability_info"
                 android:layout_marginBottom="4dp"/>
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                <!--android:text="@string/router_models"-->
-                <!--android:layout_marginBottom="4dp"-->
-                <!--android:layout_marginTop="4dp"-->
-                <!--/>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/router_models"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
