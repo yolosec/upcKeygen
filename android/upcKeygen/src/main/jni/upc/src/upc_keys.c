@@ -100,7 +100,8 @@ void compute_wpa2(int mode, char * serial, char * pass){
     MD5_CTX ctx;
     uint8_t message_digest[20];
     char serial_input[64];
-    char tmpstr[17], ln;
+    char tmpstr[17];
+    size_t ln;
     uint8_t h1[16], h2[16];
     uint32_t hv[4], w1, w2, i;
 
