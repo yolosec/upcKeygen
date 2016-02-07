@@ -19,6 +19,7 @@ public class WiFiKey implements Parcelable {
      * Estimated serial number of the router.
      */
     private String serial;
+    private String ssid;
 
     /**
      * Frequency range the key was generated for. i.e. for WiFi operating on 2.4 GHz or 5 GHz.
@@ -50,6 +51,14 @@ public class WiFiKey implements Parcelable {
         this.serial = serial;
         this.bandType = bandType;
         this.order = order;
+    }
+
+    public String getSsid() {
+        return ssid;
+    }
+
+    public void setSsid(String ssid) {
+        this.ssid = ssid;
     }
 
     public String getKey() {
@@ -89,7 +98,9 @@ public class WiFiKey implements Parcelable {
         return "WiFiKey{" +
                 "key='" + key + '\'' +
                 ", serial='" + serial + '\'' +
+                ", ssid='" + ssid + '\'' +
                 ", bandType=" + bandType +
+                ", order=" + order +
                 '}';
     }
 
@@ -102,7 +113,8 @@ public class WiFiKey implements Parcelable {
 
         if (bandType != wiFiKey.bandType) return false;
         if (key != null ? !key.equals(wiFiKey.key) : wiFiKey.key != null) return false;
-        return !(serial != null ? !serial.equals(wiFiKey.serial) : wiFiKey.serial != null);
+        if (serial != null ? !serial.equals(wiFiKey.serial) : wiFiKey.serial != null) return false;
+        return !(ssid != null ? !ssid.equals(wiFiKey.ssid) : wiFiKey.ssid != null);
 
     }
 
@@ -110,6 +122,7 @@ public class WiFiKey implements Parcelable {
     public int hashCode() {
         int result = key != null ? key.hashCode() : 0;
         result = 31 * result + (serial != null ? serial.hashCode() : 0);
+        result = 31 * result + (ssid != null ? ssid.hashCode() : 0);
         result = 31 * result + bandType;
         return result;
     }
@@ -119,6 +132,7 @@ public class WiFiKey implements Parcelable {
         serial = in.readString();
         bandType = in.readInt();
         order = in.readInt();
+        ssid = in.readString();
     }
 
     @Override
@@ -132,6 +146,7 @@ public class WiFiKey implements Parcelable {
         dest.writeString(serial);
         dest.writeInt(bandType);
         dest.writeInt(order);
+        dest.writeString(ssid);
     }
 
     @SuppressWarnings("unused")

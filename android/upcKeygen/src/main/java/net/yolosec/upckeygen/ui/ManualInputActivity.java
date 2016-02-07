@@ -19,62 +19,43 @@
 
 package net.yolosec.upckeygen.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import net.yolosec.upckeygen.R;
-import net.yolosec.upckeygen.algorithms.Keygen;
-import net.yolosec.upckeygen.algorithms.WiFiNetwork;
 
-public class ManualInputActivity extends AppCompatActivity implements OnItemSelectionListener{
+public class ManualInputActivity extends AppCompatActivity {
     private static final String TAG = "ManualInputActivity";
-    private static final int DIALOG_ABOUT = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_fragment);
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }catch(Exception e){
-            Log.e(TAG, "Exception", e);
-        }
+        setContentView(R.layout.activity_tabs);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.keygen_fragment,
-                            ManualInputFragment
-                                    .newInstance(getIntent()
-                                            .getStringExtra(
-                                                    ManualInputFragment.MAC_ADDRESS_ARG)))
-                    .commit();
-        }
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+
+        // Give the TabLayout the ViewPager
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+//            case android.R.id.home:
 //                NavUtils.navigateUpTo(this,
 //                        new Intent(this, NetworksListActivity.class)
 //                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 //                );
-                return true;
+//                return true;
             case R.id.pref:
                 startActivity(new Intent(this, AboutTabHostActivity.class));
                 return true;
@@ -87,17 +68,5 @@ public class ManualInputActivity extends AppCompatActivity implements OnItemSele
         return true;
     }
 
-    public void onItemSelected(WiFiNetwork wiFiNetwork) {
-        if (wiFiNetwork.getSupportState() == Keygen.UNSUPPORTED) {
-            Toast.makeText(this, R.string.msg_unspported,
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent detailIntent = new Intent(this, NetworkActivity.class);
-        detailIntent.putExtra(NetworkFragment.NETWORK_ID, wiFiNetwork);
-        startActivity(detailIntent);
-    }
-
-    public void onItemSelected(String mac) {
-    }
+    
 }

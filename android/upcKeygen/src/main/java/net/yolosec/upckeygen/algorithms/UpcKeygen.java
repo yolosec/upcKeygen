@@ -2,11 +2,13 @@ package net.yolosec.upckeygen.algorithms;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.yolosec.upckeygen.R;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.List;
 public class UpcKeygen extends Keygen {
     private static final String TAG="UpcKeygen";
     private final List<WiFiKey> computedKeys = new LinkedList<>();
+    private int isUbee = 0;
 
     static {
         System.loadLibrary("upc");
@@ -53,12 +56,28 @@ public class UpcKeygen extends Keygen {
         super(ssid, mac, mode);
     }
 
+    public UpcKeygen(String ssid, String mac, int mode, boolean isUbee) {
+        super(ssid, mac, mode);
+        this.isUbee = isUbee ? 1 :0 ;
+    }
+
     private UpcKeygen(Parcel in) {
         super(in);
+        isUbee = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(isUbee);
     }
 
     @Override
     public int getSupportState() {
+        if (isUbee > 0 && (getMacAddress().startsWith("64:7C:34") || getMacAddress().toUpperCase().startsWith("647C34"))){
+            return SUPPORTED;
+        }
+
         if (getSsidName().matches("UPC[0-9]{7}")) {
             return SUPPORTED;
         } else if (getSsidName().matches("UPC[0-9]{5,6}")) {
@@ -76,8 +95,29 @@ public class UpcKeygen extends Keygen {
     }
 
     public void doComputeKeys() throws UnsupportedEncodingException {
-        Log.d(TAG, "Starting a new task for ssid: " + getSsidName());
-        upcNative(getSsidName().getBytes("US-ASCII"), getMode());
+        if (isUbee == 0){
+            Log.d(TAG, "Starting a new task for ssid (Thompson): " + getSsidName());
+            upcNative(getSsidName().getBytes("US-ASCII"), getMode());
+        } else {
+            Log.d(TAG, "Starting a new task for mac (Ubee): " + getMacAddress());
+
+            // Ubee extension first, better matching.
+            final BigInteger macInt = new BigInteger(getMacAddress(), 16);
+            final BigInteger macStart = macInt.subtract(BigInteger.valueOf(6));
+            for(int i=0; i<12; i++){
+                final BigInteger curMac = macStart.add(BigInteger.valueOf(i));
+                final String curSsid = upcUbeeSsid(curMac.toByteArray());
+                final String curPass = upcUbeePass(curMac.toByteArray());
+
+                WiFiKey wiFiKey = new WiFiKey(curPass, "", getMode(), computedKeys.size());
+                wiFiKey.setSsid(curSsid);
+
+                computedKeys.add(wiFiKey);
+                if (monitor != null){
+                    monitor.onKeyComputed();
+                }
+            }
+        }
     }
 
     @Override
@@ -135,4 +175,18 @@ public class UpcKeygen extends Keygen {
      * @return
      */
     private native void upcNative(byte[] essid, int mode);
+
+    /**
+     * Returns SSID
+     * @param macc
+     * @return
+     */
+    private native String upcUbeeSsid(byte[] macc);
+
+    /**
+     * Returns passwd for given mac.
+     * @param mac
+     * @return
+     */
+    private native String upcUbeePass(byte[] mac);
 }

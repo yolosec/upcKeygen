@@ -97,3 +97,26 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
   }
 }
 
+JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeeSsid
+        (JNIEnv * env, jobject obj, jbyteArray ess)
+{
+  // MAC reading from parameter.
+  jbyte *e_native = (*env)->GetByteArrayElements(env, ess, 0);
+  char * e_mac = (char*) e_native;
+  unsigned char ssid[100];
+
+  ubee_generate_ssid((unsigned char *)e_mac, ssid, NULL);
+  return (*env)->NewStringUTF(env, (char*)ssid);
+}
+
+JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeePass
+        (JNIEnv * env, jobject obj, jbyteArray ess)
+{
+  // MAC reading from parameter.
+  jbyte *e_native = (*env)->GetByteArrayElements(env, ess, 0);
+  char * e_mac = (char*) e_native;
+  unsigned char pass[100];
+
+  ubee_generate_pass((unsigned char *)e_mac, pass, NULL);
+  return (*env)->NewStringUTF(env, (char*)pass);
+}
