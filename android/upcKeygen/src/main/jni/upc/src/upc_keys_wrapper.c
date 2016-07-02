@@ -49,7 +49,7 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
   uint32_t i, cnt=0, pidx;
 
   target = strtoul(e_ssid_nullterm + 3, NULL, 0);
-  IPRINTF("Computing UPC keys for essid [%s], target %lu, mode: %d", e_ssid_nullterm, (unsigned long)target, mode);
+  IPRINTF("Computing UPC keys for essid [%s], target %lu, mode: %d, ssid len: %d", e_ssid_nullterm, (unsigned long)target, mode, (int)e_ssid_len);
   unsigned long stop_ctr = 0;
   unsigned long iter_ctr = 0;
 

@@ -95,7 +95,7 @@ public class UpcKeygen extends Keygen {
     }
 
     public void doComputeKeys() throws UnsupportedEncodingException {
-        final byte[] ssidBytes = getSsidName().getBytes("US-ASCII");
+        final byte[] ssidBytes = (getSsidName()+"\0").getBytes("US-ASCII");
         if (isUbee == 0){
             Log.d(TAG, "Starting a new task for ssid (UPC): " + getSsidName());
             //upcUbeeSsidFind(ssidBytes);
