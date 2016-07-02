@@ -36,7 +36,7 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
   jbyte *e_native = (*env)->GetByteArrayElements(env, ess, 0);
   jsize e_ssid_len = (*env)->GetArrayLength(env, ess);
   char * e_ssid = (char*) e_native;
-  char * e_ssid_nullterm[24];
+  char e_ssid_nullterm[24];
   strncpy(e_ssid_nullterm, e_ssid, e_ssid_len);
 
   // Definitions.
