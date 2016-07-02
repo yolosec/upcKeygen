@@ -95,9 +95,12 @@ public class UpcKeygen extends Keygen {
     }
 
     public void doComputeKeys() throws UnsupportedEncodingException {
+        final byte[] ssidBytes = getSsidName().getBytes("US-ASCII");
         if (isUbee == 0){
-            Log.d(TAG, "Starting a new task for ssid (Thompson): " + getSsidName());
-            upcNative(getSsidName().getBytes("US-ASCII"), getMode());
+            Log.d(TAG, "Starting a new task for ssid (UPC): " + getSsidName());
+            //upcUbeeSsidFind(ssidBytes);
+            upcNative(ssidBytes, getMode());
+
         } else {
             Log.d(TAG, "Starting a new task for mac (Ubee): " + getMacAddress());
 
@@ -189,4 +192,12 @@ public class UpcKeygen extends Keygen {
      * @return
      */
     private native String upcUbeePass(byte[] mac);
+
+    /**
+     * Iterates over 2^24 MAC addresses to find given SSID.
+     *
+     * @param essid
+     * @return
+     */
+    private native void upcUbeeSsidFind(byte[] essid);
 }
