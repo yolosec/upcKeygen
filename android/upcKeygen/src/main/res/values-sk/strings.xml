@@ -165,4 +165,8 @@
     <string name="freq_5">5 GHz</string>
     <string name="freq_both">2.4 + 5 Ghz</string>
     <string name="serial">Router SN: %s</string>
+    <string name="router_password">Password: %s</string>
+    <string name="router_ssid">SSID: %s</string>
+    <string name="ubee_desc1">UbeeEVW3226 router has SSID (WiFi name) and password derived from its MAC address (it can be found on the router\'s label).</string>
+    <string name="ubee_desc2">Series of candidate SSIDs and passwords is computed, select the one that fits your SSID and test the password.</string>
 </resources>
