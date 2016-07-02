@@ -11,6 +11,7 @@ extern "C" {
 
 int ubee_generate_ssid(unsigned const char * mac, unsigned char * ssid, size_t * len);
 int ubee_generate_pass(unsigned const char * mac, unsigned char * pass, size_t * len);
+void ubee_incmac(unsigned char * mac, unsigned char * newmac, int delta);
 
 #ifdef __cplusplus
 }

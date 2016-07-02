@@ -27,6 +27,9 @@ JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbe
 JNIEXPORT jstring JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeePass
         (JNIEnv *, jobject, jbyteArray);
 
+JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcUbeeSsidFind
+        (JNIEnv *, jobject, jbyteArray);
+
 #ifdef __cplusplus
 }
 #endif

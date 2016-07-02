@@ -92,13 +92,13 @@ const char * profanities[] = {
 int ubee_generate_ssid(unsigned const char * mac, unsigned char * ssid, size_t * len)
 {
     MD5_CTX ctx;
-    unsigned char buff1[100];
-	unsigned char buff2[100];
-	unsigned char h1[100], h2[100];
-	memset(buff1, 0, 100);
-	memset(buff2, 0, 100);
-	memset(h1, 0, 100);
-	memset(h2, 0, 100);
+    unsigned char buff1[64];
+	unsigned char buff2[64];
+	unsigned char h1[32], h2[32];
+	memset(buff1, 0, 64);
+	memset(buff2, 0, 64);
+	memset(h1, 0, 32);
+	memset(h2, 0, 32);
 
 	if (len != NULL && *len < 11){
 	    return -1;
@@ -205,5 +205,19 @@ int ubee_enerate_profanity_free_pass(unsigned char * hash_buff, unsigned char co
             UBEE_NONINSULTING_ALPHABET[((hash_buff[6]+hash_buff[14]) % 0x1Au)],
             UBEE_NONINSULTING_ALPHABET[((hash_buff[7]+hash_buff[15]) % 0x1Au)]);
     return 0;
+}
+
+void ubee_incmac(unsigned char * mac, unsigned char * newmac, int delta)
+{
+    uint64_t macInt = 0;
+    int i = 0;
+    for(i = 0; i<6; i++){
+        macInt |= ((uint64_t)(mac[i] & 0xFFu)) << (8*(5-i));
+    }
+
+    macInt += delta;
+    for(i = 0; i<6; i++){
+        newmac[i] = (macInt >> (8*(5-i))) & 0xFFu;
+    }
 }
 
