@@ -41,7 +41,9 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
   uint32_t buf[4], target;
   char serial[64];
   char pass[9];
-  uint32_t i, cnt=0;
+  const char * serial_prefixes[] = { "SAAP", "SAPP", "SBAP" };
+  const int prefixes_cnt = (sizeof(serial_prefixes)/sizeof(serial_prefixes[0]));
+  uint32_t i, cnt=0, pidx;
 
   target = strtoul(e_ssid + 3, NULL, 0);
   IPRINTF("Computing UPC keys for essid [%s], target %lu, mode: %d", e_ssid, (unsigned long)target, mode);
@@ -73,23 +75,25 @@ JNIEXPORT void JNICALL Java_net_yolosec_upckeygen_algorithms_UpcKeygen_upcNative
             continue;
           }
 
-          sprintf(serial, "SAAP%d%02d%d%04d", buf[0], buf[1], buf[2], buf[3]);
+          for(pidx=0; pidx < prefixes_cnt; ++pidx){
+            sprintf(serial, "%s%d%02d%d%04d", serial_prefixes[pidx], buf[0], buf[1], buf[2], buf[3]);
 
-          // For matched mode compute passwords.
-          for(mx=0; mx<2; mx++){
-            if (matched[mx]==0){
-              continue;
+            // For matched mode compute passwords.
+            for(mx=0; mx<2; mx++){
+              if (matched[mx]==0){
+                continue;
+              }
+
+              cnt++;
+              compute_wpa2(mx+1, serial, pass);
+              IPRINTF("  -> #%02d WPA2 phrase for '%s' = '%s', mode: %d", cnt, serial, pass, mx+1);
+
+              jstring jpass = (*env)->NewStringUTF(env, pass);
+              jstring jserial = (*env)->NewStringUTF(env, serial);
+              (*env)->CallVoidMethod(env, obj, on_key_computed, jpass, jserial, (jint)mx+1, (jint)0);
+              (*env)->DeleteLocalRef(env, jpass);
+              (*env)->DeleteLocalRef(env, jserial);
             }
-
-            cnt++;
-            compute_wpa2(mx+1, serial, pass);
-            IPRINTF("  -> #%02d WPA2 phrase for '%s' = '%s', mode: %d", cnt, serial, pass, mx+1);
-
-            jstring jpass = (*env)->NewStringUTF(env, pass);
-            jstring jserial = (*env)->NewStringUTF(env, serial);
-            (*env)->CallVoidMethod(env, obj, on_key_computed, jpass, jserial, (jint)mx+1, (jint)0);
-            (*env)->DeleteLocalRef(env, jpass);
-            (*env)->DeleteLocalRef(env, jserial);
           }
         }
       }
